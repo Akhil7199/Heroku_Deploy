@@ -30,4 +30,7 @@ jobs:
             username: root
             key: ${{ secrets.DO_PRIVATE_KEY }}
             port: 22
-            script: whoami
+            script: |
+                     whoami
+                     cat /root/akhilTest/akhilTest.yml
+
