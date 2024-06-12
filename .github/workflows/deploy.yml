@@ -23,9 +23,11 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
-      - name: push, and release Docker image
-        run: |
-            heroku container:push web --app gitactdep
-            heroku container:release web --app gitactdep
-        env:
-            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+            host: 138.197.14.202
+            username: root
+            key: ${{ secrets.DO_PRIVATE_KEY }}
+            port: 22
+            script: whoami
