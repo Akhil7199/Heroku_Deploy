@@ -13,15 +13,8 @@ jobs:
       - name: Checkout repo or code
         uses: actions/checkout@v2
 
-      - name: Log in to Heroku Container Registry
-        run: echo "$HEROKU_API_KEY" | docker login --username=_ --password-stdin registry.heroku.com
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-
       - name: Build docker image
         run: docker build -t my-java-app:latest .
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
       - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@v1.0.3
@@ -30,7 +23,16 @@ jobs:
             username: root
             key: ${{ secrets.DO_PRIVATE_KEY }}
             port: 22
-            script: |
+            script: | #cat /root/akhilTest/akhilTest.yml
                      whoami
-                     cat /root/akhilTest/akhilTest.yml
-
+                     pwd
+                     mkdir Github_to_Droplet
+                     cd Github_to_Droplet
+                     touch test.yml
+                     cat <<EOF > test.yml
+                     Hello! The connection from Github to Droplet is Successfull!
+                     EOF
+                     cat test.yml
+                     docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+                     docker pull akhil7199/my-java-app:fa878d2
+                     docker run -t -d akhil7199/my-java-app:fa878d2
